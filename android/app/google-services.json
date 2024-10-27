@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "131292024891",
+    "project_id": "madame-acc47",
+    "storage_bucket": "madame-acc47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131292024891:android:b3782ffd8fb92b50454c1e",
+        "android_client_info": {
+          "package_name": "com.company.madame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtd1Q4H2sWTc0Ag3v_-EF0LbY7npU6Wps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
