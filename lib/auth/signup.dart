@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:madame/auth/auth.dart';
 import 'package:madame/auth/login.dart';
 import 'package:madame/components/loading.dart';
 import 'package:madame/constants/colors.dart';
@@ -80,8 +79,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const Homepage(),
+          pageBuilder: (context, animation, secondaryAnimation) => Homepage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -112,7 +110,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final screenSize = ScreenSize(context);
     return isLoading
-        ? Loader()
+        ? const Loader()
         : Scaffold(
             appBar: AppBar(
               toolbarHeight: screenSize.heightPercentage(15),
@@ -185,7 +183,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    Login(),
+                                    const Login(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return FadeTransition(
@@ -211,12 +209,19 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
               children: [
                 Center(
                   child: SingleChildScrollView(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Image.asset(
+                            'lib/assets/taxi.png', // Replace with your image path
+                            width: screenSize.widthPercentage(30),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                         Text(
                           "Register yourself.",
                           style: GoogleFonts.manrope(
@@ -262,6 +267,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(50),
                               borderSide: const BorderSide(color: grey),
                             ),
+                            counterText: "",
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -296,7 +302,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                                         isObcsure = false;
                                       });
                                     },
-                                    icon: Icon(Icons.visibility),
+                                    icon: const Icon(Icons.visibility),
                                   )
                                 : IconButton(
                                     onPressed: () {
@@ -304,7 +310,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                                         isObcsure = true;
                                       });
                                     },
-                                    icon: Icon(Icons.visibility_off),
+                                    icon: const Icon(Icons.visibility_off),
                                   ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(50),
@@ -336,13 +342,14 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                                 autoCloseDuration: const Duration(seconds: 5),
                                 alignment: Alignment.bottomCenter,
                               );
-                            } else if (_mobile.text.isEmpty) {
+                            } else if (_mobile.text.isEmpty ||
+                                _mobile.text.length != 10) {
                               toastification.show(
                                 type: ToastificationType.error,
                                 style: ToastificationStyle.fillColored,
                                 context: context,
                                 title: Text(
-                                  'Please provide your mobile number',
+                                  'Please check your mobile number',
                                   style: GoogleFonts.manrope(),
                                 ),
                                 autoCloseDuration: const Duration(seconds: 5),
@@ -354,6 +361,8 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                                 'mobile': _mobile.text,
                                 'email': _email.text,
                                 'password': _password.text,
+                                'rating': 0.0,
+                                'created_at': DateTime.now().toUtc().toString(),
                               };
                               signUp(data);
                             }

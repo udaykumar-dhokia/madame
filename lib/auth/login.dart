@@ -23,19 +23,20 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   TextEditingController _password = TextEditingController();
   bool isObcsure = true;
 
-  void login(String email, String password) {
+  Future<void> login(String email, String password) async {
     try {
       setState(() {
         isLoading = true;
       });
       FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
       toastification.show(
         context: context,
         type: ToastificationType.success,
         style: ToastificationStyle.fillColored,
         title: Text(
-          'Sign Up successfully',
+          'Login successfully',
           style: GoogleFonts.manrope(),
         ),
         autoCloseDuration: const Duration(seconds: 5),
@@ -44,8 +45,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const Homepage(),
+          pageBuilder: (context, animation, secondaryAnimation) => Homepage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -167,7 +167,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    "A secure way to go.",
+                    "A safer way to go.",
                     style: GoogleFonts.manrope(
                       fontSize: screenSize.widthPercentage(3.5),
                       fontWeight: FontWeight.w400,
@@ -186,6 +186,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Image.asset(
+                          'lib/assets/taxi.png', // Replace with your image path
+                          width: screenSize.widthPercentage(30),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                       Text(
                         "Welcome back.",
                         style: GoogleFonts.manrope(

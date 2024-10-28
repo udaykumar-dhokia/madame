@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:madame/auth/auth.dart';
-import 'package:madame/auth/signup.dart';
 import 'package:madame/constants/colors.dart';
 import 'package:madame/utils/screen_size.dart';
 
@@ -59,42 +58,62 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
 
     return Scaffold(
       backgroundColor: primary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShaderMask(
-              shaderCallback: (bounds) {
-                return LinearGradient(
-                  colors: const [
-                    primaryDark,
-                    Colors.pink,
-                    Color(0xffffb3c1),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  transform: GradientRotation(
-                      _controller.value * 2 * 3.14159), // Single rotation
-                ).createShader(bounds);
-              },
-              child: Text(
-                "madame",
-                style: GoogleFonts.manrope(
-                  fontSize: screenSize.widthPercentage(8),
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.4,
+            child: Container(
+              width: screenSize.width,
+              height: screenSize.height,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Image.asset(
+                  "lib/assets/taxi.png",
+                  width: screenSize.width * 0.5, // Adjust width as needed
+                  height: screenSize.height * 0.3, // Adjust height as needed
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
-            Text(
-              "A safer way to go.",
-              style: GoogleFonts.manrope(
-                fontSize: screenSize.widthPercentage(3.5),
-                fontWeight: FontWeight.w400,
-              ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ShaderMask(
+                  shaderCallback: (bounds) {
+                    return LinearGradient(
+                      colors: const [
+                        primaryDark,
+                        Colors.pink,
+                        Color(0xffffb3c1),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      transform: GradientRotation(
+                          _controller.value * 2 * 3.14159), // Single rotation
+                    ).createShader(bounds);
+                  },
+                  child: Text(
+                    "madame",
+                    style: GoogleFonts.manrope(
+                      fontSize: screenSize.widthPercentage(8),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Text(
+                  "A safer way to go.",
+                  style: GoogleFonts.manrope(
+                    fontSize: screenSize.widthPercentage(3.5),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
