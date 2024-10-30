@@ -101,7 +101,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For feedback, suggestions, or help, reach out at [contact@madameapp.com](mailto:contact@madameapp.com).
+For feedback, suggestions, or help, reach out at [madamecompany@protonmail.com](mailto:madamecompany@protonmail.com).
 
 ---
 
