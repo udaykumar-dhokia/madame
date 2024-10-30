@@ -46,8 +46,23 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
             child: Container(
-              color: primary
-                  .withOpacity(1), // Slightly dark overlay with transparency
+              color: primary.withOpacity(1),
+            ),
+          ),
+          Opacity(
+            opacity: 0.4,
+            child: SizedBox(
+              width: screenSize.width,
+              height: screenSize.height,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Image.asset(
+                  "lib/assets/taxi.png",
+                  width: screenSize.width * 0.5,
+                  height: screenSize.height * 0.3,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           ),
           Center(
@@ -64,8 +79,8 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      transform: GradientRotation(
-                          _controller.value * 2 * 3.14159), // Single rotation
+                      transform:
+                          GradientRotation(_controller.value * 2 * 3.14159),
                     ).createShader(bounds);
                   },
                   child: Text(

@@ -28,7 +28,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       setState(() {
         isLoading = true;
       });
-      FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
       toastification.show(
@@ -42,10 +42,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         autoCloseDuration: const Duration(seconds: 5),
         alignment: Alignment.bottomCenter,
       );
+      setState(() {
+        isLoading = false;
+      });
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => Homepage(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const Homepage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -55,9 +59,6 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           transitionDuration: const Duration(milliseconds: 500),
         ),
       );
-      setState(() {
-        isLoading = false;
-      });
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -138,6 +139,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               ),
             ),
             appBar: AppBar(
+              surfaceTintColor: transparent,
               toolbarHeight: screenSize.heightPercentage(15),
               backgroundColor: primary,
               title: Column(

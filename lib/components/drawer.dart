@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:madame/constants/colors.dart';
+import 'package:madame/screens/profile/profile.dart';
 import 'package:madame/utils/screen_size.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class DrawerWidget extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -41,16 +43,24 @@ class _DrawerWidgetState extends State<DrawerWidget>
   @override
   Widget build(BuildContext context) {
     final screenSize = ScreenSize(context);
+    int total = 5;
+    int given = widget.userData.length;
+    double completed = total / given;
 
     return Drawer(
+      surfaceTintColor: transparent,
       width: screenSize.widthPercentage(80),
       backgroundColor: primary,
       child: ListView(
+        shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: primary,
+              color: secondary,
+              border: Border(
+                bottom: BorderSide.none,
+              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -92,48 +102,73 @@ class _DrawerWidgetState extends State<DrawerWidget>
           const SizedBox(
             height: 15,
           ),
-          ListTile(
-            leading: Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 0.8,
+          Container(
+            margin: const EdgeInsets.only(left: 12, right: 12),
+            padding: const EdgeInsets.only(top: 12, bottom: 12),
+            decoration: BoxDecoration(
+              color: secondary.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: ListTile(
+              enableFeedback: true,
+              leading: CircularPercentIndicator(
+                radius: 25.0,
+                lineWidth: 4.0,
+                animation: true,
+                percent: completed,
+                center: const Icon(
+                  Boxicons.bx_user,
+                  size: 20,
                 ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: success,
               ),
-              child: const Icon(
-                Boxicons.bx_user,
-                size: 20,
+              title: Text(
+                widget.userData["name"],
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
               ),
-            ),
-            title: Text(
-              widget.userData["name"],
-              style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text(
-              widget.userData["mobile"],
-              style: GoogleFonts.manrope(fontWeight: FontWeight.w500),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Boxicons.bxs_star,
-                  color: warning,
-                  size: 18,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  widget.userData["rating"].toString(),
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.bold,
+              subtitle: Text(
+                widget.userData["mobile"],
+                style: GoogleFonts.manrope(fontWeight: FontWeight.w500),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Boxicons.bxs_star,
+                    color: warning,
+                    size: 18,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  Text(
+                    widget.userData["rating"].toString(),
+                    style: GoogleFonts.manrope(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        Profile(
+                      userData: widget.userData,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 500),
+                  ),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
           const SizedBox(
             height: 15,

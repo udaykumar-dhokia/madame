@@ -20,7 +20,6 @@ class Auth extends StatelessWidget {
             );
           } else {
             if (snapshot.hasData) {
-              User? user = FirebaseAuth.instance.currentUser;
               return const Homepage();
             } else {
               return const Login();

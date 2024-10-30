@@ -51,7 +51,8 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
       setState(() {
         isLoading = true;
       });
-      final credentials = FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credentials =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: data["email"],
         password: data["password"],
       );
@@ -61,9 +62,6 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
           .doc(data["email"])
           .set(data);
 
-      setState(() {
-        isLoading = false;
-      });
       toastification.show(
         context: context,
         type: ToastificationType.success,
@@ -79,7 +77,8 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => Homepage(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const Homepage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -89,6 +88,9 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
           transitionDuration: const Duration(milliseconds: 500),
         ),
       );
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -113,6 +115,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
         ? const Loader()
         : Scaffold(
             appBar: AppBar(
+              surfaceTintColor: transparent,
               toolbarHeight: screenSize.heightPercentage(15),
               backgroundColor: primary,
               title: Stack(children: [
